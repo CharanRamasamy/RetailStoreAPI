@@ -1,5 +1,0 @@
-package com.project.retail.RetailProject.lineitem;
-
-public class HibernateUtil {
-
-}
