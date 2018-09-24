@@ -1,0 +1,28 @@
+package com.project.retail.RetailProject.lineitem;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.project.retail.RetailProject.Cart.Cart;
+import com.project.retail.RetailProject.product.Product;
+import com.project.retail.RetailProject.shop.Shop;
+
+@Entity
+public class LineItems {
+	@Id
+	@GeneratedValue
+	private Integer itemId;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+	private Cart orders;
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+	private Product products;
+}

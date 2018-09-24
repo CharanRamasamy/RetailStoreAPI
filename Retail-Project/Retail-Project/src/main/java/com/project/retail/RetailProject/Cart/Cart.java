@@ -1,15 +1,21 @@
 package com.project.retail.RetailProject.Cart;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.project.retail.RetailProject.lineitem.LineItems;
 import com.project.retail.RetailProject.shop.Shop;
 
 @Entity
@@ -22,6 +28,13 @@ public class Cart {
     @JoinColumn(name = "shop_id")
 	private Shop shops;
 	
+	
+	@OneToMany(
+	        mappedBy = "orders", 
+	        cascade = CascadeType.ALL, 
+	        orphanRemoval = true
+	    )
+	private List<LineItems> lineitems = new ArrayList<>();
 	
 	private String orderDate;
 	private String orderTime;
@@ -38,6 +51,14 @@ public class Cart {
 		this.orderDate = orderDate;
 		this.orderTime = orderTime;
 		this.orderTotal = orderTotal;
+	}
+
+	public List<LineItems> getLineitems() {
+		return lineitems;
+	}
+
+	public void setLineitems(List<LineItems> lineitems) {
+		this.lineitems = lineitems;
 	}
 
 	public Integer getOrderId() {

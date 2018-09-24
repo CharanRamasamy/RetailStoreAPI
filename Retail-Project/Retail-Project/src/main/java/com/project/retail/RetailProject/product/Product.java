@@ -1,5 +1,8 @@
 package com.project.retail.RetailProject.product;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,9 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.project.retail.RetailProject.Cart.Cart;
+import com.project.retail.RetailProject.lineitem.LineItems;
 import com.project.retail.RetailProject.shop.Shop;
 
 @Entity
@@ -22,18 +28,25 @@ public class Product {
     @JoinColumn(name = "shop_id")
 	private Shop shops;
 	
+	@OneToMany(
+	        mappedBy = "products", 
+	        cascade = CascadeType.ALL, 
+	        orphanRemoval = true
+	    )
+	private List<LineItems> lineitems = new ArrayList<>();
+	
 	private String productName;
 	private String productCategory;
 	private String productDescription;
-	private String productPrice;
-	private String quantityInStock;
+	private Double productPrice;
+	private Integer quantityInStock;
 	
 	public Product() {
 		super();
 	}
 
 	public Product(Integer productId, Shop shop ,String productName, String productCategory, String productDescription,
-			String productPrice, String quantityInStock) {
+			Double productPrice, Integer quantityInStock) {
 		super();
 		this.productId = productId;
 		this.shops = shop;
@@ -42,6 +55,14 @@ public class Product {
 		this.productDescription = productDescription;
 		this.productPrice = productPrice;
 		this.quantityInStock = quantityInStock;
+	}
+	
+	public List<LineItems> getLineitems() {
+		return lineitems;
+	}
+
+	public void setLineitems(List<LineItems> lineitems) {
+		this.lineitems = lineitems;
 	}
 
 	public Integer getProductId() {
@@ -86,19 +107,19 @@ public class Product {
 		this.productDescription = productDescription;
 	}
 
-	public String getProductPrice() {
+	public Double getProductPrice() {
 		return productPrice;
 	}
 
-	public void setProductPrice(String productPrice) {
+	public void setProductPrice(Double productPrice) {
 		this.productPrice = productPrice;
 	}
 
-	public String getQuantityInStock() {
+	public Integer getQuantityInStock() {
 		return quantityInStock;
 	}
 
-	public void setQuantityInStock(String quantityInStock) {
+	public void setQuantityInStock(Integer quantityInStock) {
 		this.quantityInStock = quantityInStock;
 	}
 
